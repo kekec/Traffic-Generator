@@ -13,12 +13,13 @@
 #WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
 #or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #
-#You should have received a copy of the GNU General Public License along with Foobar. If not, see http://www.gnu.org/licenses/.
+#You should have received a copy of the GNU General Public License along with Traffic Generator. If not, see http://www.gnu.org/licenses/.
 
-# The jarfile AXMLPrinter2.jar is o convert the binary manifestfile to ascii
+# The jarfile AXMLPrinter2.jar is used to convert the binary manifestfile to ascii
 axml="../AXMLPrinter2.jar"
 tf="tmp/anma.xml"
 activity="tmp/activity.txt"
+EMULATOR_PROFILE=td
 
 #########################################################################
 # Warning make sure PATH variable includes the android 'platform-tools' #
@@ -78,8 +79,8 @@ do
     chmod 755 $tf
     package_name=$(cat $tf | grep package | awk 'BEGIN { FS="\""};{print $2}') #get string within apostrophys
     echo "pkg name is: $package_name"
-    emulator -tcpdump $f.cap -avd test& #here I assume that the emulator profile test exists
-    sleep 35 # wait for the emulator to boot
+    emulator -tcpdump $f.cap -avd $EMULATOR_PROFILE& #here I assume that the emulator profile "td" exists
+    sleep 50 # wait for the emulator to boot
     echo "going to install the app"
     adb install $f
     #parse the anma.xml file and extract the attribute andriod:name field of the first activity
